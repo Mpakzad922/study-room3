@@ -482,3 +482,4 @@ async function deleteNotif(id) {
     fetchData();
 
 }
+
