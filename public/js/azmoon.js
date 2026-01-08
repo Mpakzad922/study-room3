@@ -1,4 +1,4 @@
-const API_URL = "https://chamran-api.liara.run"; 
+const API_URL = "https://chamran-api2.liara.run"; 
 const EXAM_STATE_KEY = "chamran_exam_active_session_v8"; 
 
 let currentUser = null;
@@ -391,5 +391,6 @@ function launchConfetti() {
 }
 
 function toPersianNum(n) { return n.toString().replace(/\d/g, x => ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'][x]); }
+
 
 window.onload = init;
