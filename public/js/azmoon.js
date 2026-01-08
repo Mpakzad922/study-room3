@@ -394,3 +394,4 @@ function toPersianNum(n) { return n.toString().replace(/\d/g, x => ['۰','۱','�
 
 
 window.onload = init;
+
