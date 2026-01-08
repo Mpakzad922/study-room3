@@ -1,5 +1,5 @@
 // 🔴 آدرس سرور (لیارا)
-const API_URL = "https://chamran-api.liara.run";
+const API_URL = "https://chamran-api2.liara.run";
 
 let ADMIN_TOKEN = "";
 let ALL_DATA = { lessons: [], exams: [] };
@@ -400,5 +400,6 @@ async function sendReq(body) {
     const r = await fetch(API_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
     return await r.json();
 }
+
 
 addQuestion(); // شروع با یک سوال خالی
