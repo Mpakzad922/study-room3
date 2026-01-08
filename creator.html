@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پنل ساخت و ویرایش محتوا (نسخه پیشرفته ⚙️)</title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" />
+    
+    <link rel="stylesheet" href="public/css/creator.css">
+</head>
+<body>
+
+    <input type="file" id="globalFileInput" style="display: none;" accept="image/*">
+
+    <div id="loginOverlay">
+        <h2 style="margin-bottom: 20px;">🔐 ورود به پنل سازنده</h2>
+        <input type="password" id="adminTokenInput" placeholder="رمز عبور مدیریت را وارد کنید...">
+        <button onclick="checkLogin()">ورود به سیستم</button>
+    </div>
+
+    <div class="container" id="mainContainer">
+        <div id="editModeBadge" class="edit-mode-badge">
+            ✏️ در حال ویرایش: <span id="editTargetName">...</span>
+            <button onclick="cancelEdit()" style="background:white; color:#f39c12; padding:5px 10px; font-size:0.8rem; margin-right:10px;">لغو ویرایش</button>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('create')">➕ ساخت / ویرایش</button>
+            <button class="tab-btn" onclick="switchTab('manage')">📂 مدیریت محتوا (سرور)</button>
+        </div>
+
+        <div id="tab-create" class="section active">
+            <select id="contentType" onchange="toggleForm()" style="margin-bottom:20px; background:#f0f8ff; font-weight:bold; color:var(--primary);">
+                <option value="lesson">🎬 درس (ویدیو)</option>
+                <option value="exam">📝 آزمون (سوالات)</option>
+            </select>
+
+            <div style="margin-bottom: 20px; display: flex; align-items: center; gap: 10px; background: #fff0f0; padding: 15px; border-radius: 12px; border: 2px dashed #ffcccc;">
+                <input type="checkbox" id="isNewContent" style="width: 25px; height: 25px; cursor: pointer;">
+                <label for="isNewContent" style="margin:0; color:var(--danger); cursor: pointer;">🔥 نمایش برچسب "جدید" (چشمک‌زن)</label>
+            </div>
+
+            <div id="lessonForm">
+                <label>عنوان درس:</label>
+                <input id="l_title" placeholder="مثلاً: ریاضی فصل ۴">
+                
+                <label>لینک فیلم اصلی (MP4):</label>
+                <input id="l_link" dir="ltr" placeholder="https://site.com/video.mp4">
+                
+                <label>فایل‌های ضمیمه (PDF، تمرین و...):</label>
+                <div id="attach_container"></div>
+                <button type="button" class="btn-add btn-small" onclick="addAttachRow()" style="background:#f39c12; width:auto; margin-top:5px;">➕ افزودن ضمیمه</button>
+                
+                <button id="btnSaveLesson" class="btn-green" onclick="saveLesson()">💾 ذخیره درس</button>
+            </div>
+
+            <div id="examForm" style="display:none;">
+                <div class="row">
+                    <div style="flex:2"><label>نام آزمون:</label><input id="e_title" placeholder="آزمون علوم"></div>
+                    <div style="flex:1"><label>زمان (دقیقه):</label><input type="number" id="e_time" value="15"></div>
+                    <div style="flex:1"><label>رمز (اختیاری):</label><input id="e_pass"></div>
+                </div>
+                
+                <div class="reward-config">
+                    <h4>🎁 تنظیم جوایز این آزمون (XP)</h4>
+                    <div class="reward-inputs">
+                        <div class="reward-item">
+                            <label>💎 فوق‌العاده (نمره ۲۰)</label>
+                            <input type="number" id="r_excellent" value="300" style="border-color:#8e44ad; color:#8e44ad;">
+                        </div>
+                        <div class="reward-item">
+                            <label>🥇 خیلی خوب (۱۷ تا ۱۹)</label>
+                            <input type="number" id="r_good" value="100" style="border-color:#27ae60; color:#27ae60;">
+                        </div>
+                        <div class="reward-item">
+                            <label>🙂 خوب (۱۰ تا ۱۶)</label>
+                            <input type="number" id="r_normal" value="20" style="border-color:#2980b9; color:#2980b9;">
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="questions_area"></div>
+                
+                <button onclick="addQuestion()" class="btn-add">➕ افزودن سوال جدید</button>
+                <button id="btnSaveExam" class="btn-blue" onclick="saveExam()">💾 ذخیره آزمون</button>
+            </div>
+        </div>
+
+        <div id="tab-manage" class="section">
+            <input type="text" id="searchBox" placeholder="🔍 جستجو در سرور..." onkeyup="renderHistory()" style="margin-bottom:20px;">
+            <div id="contentList" style="min-height: 200px;">
+                <p style="text-align:center; color:#999;">درحال دریافت لیست...</p>
+            </div>
+            <button onclick="fetchHistory()" style="width:100%; margin-top:10px; background:#ecf0f1; color:#333;">🔄 بروزرسانی لیست</button>
+        </div>
+    </div>
+
+    <script src="public/js/creator.js"></script>
+
+</body>
+</html>
