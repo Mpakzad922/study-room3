@@ -1,4 +1,4 @@
-const API_URL = "https://chamran-api.liara.run";
+const API_URL = "https://chamran-api2.liara.run";
 const DB_KEY = "chamran_db_vfinal_";
 const CHECK_INTERVAL = 300; 
 
@@ -511,4 +511,5 @@ document.addEventListener("visibilitychange", function() {
         vid.pause(); // فیلم را نگه دار
         updatePlayBtn(); // آیکون دکمه را به حالت Play تغییر بده
     }
+
 });
