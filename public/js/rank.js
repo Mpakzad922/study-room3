@@ -3,7 +3,7 @@
 // ********************************************
 
 // 🔴 آدرس سرور (اگر در فایل HTML تعریف نشده باشد، از این استفاده می‌کند)
-const SERVER_URL = (typeof API_URL !== 'undefined') ? API_URL : "https://chamran-api.liara.run"; 
+const SERVER_URL = (typeof API_URL !== 'undefined') ? API_URL : "https://chamran-api2.liara.run"; 
 
 // 🎨 استایل‌های پاپ‌آپ و انیمیشن‌ها (تزریق به صفحه برای زیبایی)
 const xpPopupStyle = document.createElement('style');
@@ -455,4 +455,5 @@ function launchConfetti() {
         cancelAnimationFrame(animationId);
         c.style.display = 'none';
     }, 6000); // ⏱️ زمان جشن: دقیقاً ۶ ثانیه
+
 }
