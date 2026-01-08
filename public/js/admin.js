@@ -1,5 +1,5 @@
 // 🔴 آدرس سرور (لیارا)
-const API_URL = "https://chamran-api.liara.run";
+const API_URL = "https://chamran-api2.liara.run";
 
 let ADMIN_TOKEN = ""; 
 let ALL_USERS = [];
@@ -480,4 +480,5 @@ async function deleteNotif(id) {
         body: JSON.stringify({ action: 'delete_notification', admin_token: ADMIN_TOKEN, id: id })
     });
     fetchData();
+
 }
