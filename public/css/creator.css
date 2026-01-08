@@ -1,0 +1,75 @@
+:root { --primary: #2c3e50; --accent: #27ae60; --bg: #f4f6f9; --white: #fff; --blue: #2980b9; --danger: #e74c3c; --gold: #f1c40f; }
+body { font-family: 'Vazirmatn', sans-serif; background: var(--bg); margin: 0; padding: 20px; color: #34495e; display: flex; flex-direction: column; align-items: center; }
+
+/* صفحه ورود */
+#loginOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--primary); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; }
+#loginOverlay input { padding: 12px; border-radius: 10px; border: none; text-align: center; font-size: 1.2rem; margin-bottom: 20px; width: 280px; }
+#loginOverlay button { padding: 12px 40px; background: var(--accent); color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 1rem; transition: 0.3s; }
+
+/* کانتینر اصلی */
+.container { width: 100%; max-width: 900px; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); display: none; margin-bottom: 50px; }
+
+/* تب‌ها */
+.tabs { display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 2px solid #eee; padding-bottom: 10px; overflow-x: auto; }
+.tab-btn { flex: 1; padding: 12px; background: #ecf0f1; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; color: #7f8c8d; transition: 0.3s; white-space: nowrap; }
+.tab-btn.active { background: var(--primary); color: white; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(44, 62, 80, 0.2); }
+
+.section { display: none; animation: fadeIn 0.4s; }
+.section.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* فرم‌ها */
+label { display: block; margin: 15px 0 5px; font-weight: bold; color: var(--primary); font-size: 0.9rem; }
+input, textarea, select { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 10px; box-sizing: border-box; font-family: inherit; font-size: 0.95rem; transition: 0.3s; }
+input:focus, textarea:focus { border-color: var(--blue); outline: none; }
+
+.row { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
+button { padding: 12px 20px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 1rem; transition: 0.2s; }
+button:hover { opacity: 0.9; }
+
+.btn-green { background: var(--accent); color: white; width: 100%; margin-top: 20px; }
+.btn-blue { background: var(--blue); color: white; width: 100%; margin-top: 20px; }
+.btn-add { background: #f39c12; color: white; margin-bottom: 10px; width: 100%; }
+.btn-action { padding: 8px 12px; font-size: 0.9rem; margin-left: 5px; }
+.btn-del { background: #fee; color: var(--danger); border: 1px solid var(--danger); }
+.btn-edit { background: #e3f2fd; color: var(--blue); border: 1px solid var(--blue); }
+
+/* استایل آپلود */
+.upload-group { display: flex; gap: 5px; width: 100%; }
+.btn-upload { background: #8e44ad; color: white; padding: 0 15px; font-size: 0.9rem; white-space: nowrap; display: flex; align-items: center; gap: 5px; }
+.upload-loading { opacity: 0.7; cursor: wait; }
+
+/* باکس سوال پیشرفته */
+.q-box { background: #f8f9fa; border: 2px solid #e1e8ed; border-radius: 15px; padding: 20px; margin-bottom: 25px; position: relative; border-right: 5px solid var(--blue); }
+.q-num { background: var(--primary); color: white; padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; position: absolute; left: 15px; top: 15px; }
+.del-q { position: absolute; left: 15px; top: 50px; color: var(--danger); cursor: pointer; font-size: 0.9rem; border: 1px solid var(--danger); padding: 4px 10px; border-radius: 5px; background: #fff; }
+
+.opt-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; background: white; padding: 10px; border-radius: 8px; border: 1px solid #eee; }
+.opt-label { width: 60px; font-size: 0.9rem; color: #7f8c8d; font-weight: bold; }
+
+.explain-box { margin-top: 15px; background: #fff8e1; padding: 15px; border-radius: 10px; border: 1px dashed #f1c40f; }
+.explain-title { font-size: 0.85rem; color: #f39c12; font-weight: bold; margin-bottom: 5px; }
+
+/* تاریخچه */
+.history-card { background: white; border: 1px solid #eee; border-right: 5px solid #ccc; padding: 15px; margin-bottom: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 3px 10px rgba(0,0,0,0.03); transition: 0.2s; }
+.history-card:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+
+/* تیک جدید - چشمک‌زن */
+.tag-new { background: var(--danger); color: white; font-size: 0.7rem; padding: 2px 8px; border-radius: 15px; margin-right: 5px; animation: pulse 1.5s infinite; font-weight: bold; box-shadow: 0 2px 5px rgba(192, 57, 43, 0.4); }
+@keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.05); } 100% { opacity: 1; transform: scale(1); } }
+
+/* حالت ویرایش */
+.edit-mode-badge { background: #f39c12; color: white; padding: 10px; border-radius: 10px; text-align: center; margin-bottom: 20px; display: none; font-weight: bold; animation: slideDown 0.3s; }
+@keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+/* استایل باکس تنظیم امتیاز */
+.reward-config { background: #e8f6f3; padding: 15px; border-radius: 10px; border: 1px dashed #27ae60; margin: 20px 0; }
+.reward-config h4 { margin: 0 0 10px 0; color: #27ae60; border-bottom: 1px solid rgba(39, 174, 96, 0.2); padding-bottom: 5px; }
+.reward-inputs { display: flex; gap: 10px; flex-wrap: wrap; }
+.reward-item { flex: 1; min-width: 120px; }
+.reward-item label { font-size: 0.8rem; margin: 5px 0; color: #555; }
+.reward-item input { text-align: center; direction: ltr; font-weight: bold; }
+
+/* استایل دکمه‌های جابجایی */
+.btn-move { background: #fff; border: 1px solid #ddd; padding: 5px 8px; cursor: pointer; border-radius: 5px; font-size: 1rem; margin-left: 2px; }
+.btn-move:hover { background: #f0f0f0; }

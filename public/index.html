@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>میز مطالعه هوشمند چمران (نسخه نهایی 💎)</title>
+    
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="public/css/style.css">
+</head>
+<body>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <div id="lightbox" onclick="this.style.display='none'">
+        <img id="lightboxImg" src="">
+    </div>
+
+    <div id="intro-overlay">
+        <div class="signature-container">
+            <div class="sig-prefix">Created By</div>
+            <div class="sig-name" data-text="Mohammad Pakzad">Mohammad Pakzad</div>
+        </div>
+    </div>
+
+    <div id="syncOverlay">
+        <div class="hourglass-spinner">⏳</div>
+        <h3 style="font-family: 'Vazirmatn'; margin:0;">در حال ذخیره در سرور...</h3>
+        <p style="font-size:0.8rem; color:#bdc3c7; margin-top:5px;">لطفاً صبر کنید</p>
+    </div>
+
+    <div id="offlineBadge" class="offline-badge"></div>
+
+    <div id="notifModal" class="modal-overlay" onclick="if(event.target.classList.contains('modal-overlay')) this.style.display='none'">
+        <div class="modal-content">
+            <h3 style="margin-top:0; color:var(--primary);">📬 پیام‌ها و اعلانات</h3>
+            <div id="notifListContainer"></div>
+            <button class="btn-main" onclick="document.getElementById('notifModal').style.display='none'" style="margin-top:15px; background:#ddd; color:#333;">بستن</button>
+        </div>
+    </div>
+
+    <div id="historyModal" class="modal-overlay" onclick="if(event.target.classList.contains('modal-overlay')) this.style.display='none'">
+        <div class="modal-content">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid #eee; padding-bottom:10px;">
+                <h3 style="margin:0; color:var(--primary);">📜 پرونده آزمون‌ها</h3>
+                <button onclick="document.getElementById('historyModal').style.display='none'" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">×</button>
+            </div>
+            <div id="historyListContainer" class="history-list">
+                <small style="color:#aaa; text-align:center; display:block;">درحال دریافت سوابق...</small>
+            </div>
+        </div>
+    </div>
+
+    <div id="screen-login" class="card">
+        <div style="font-size: 4rem; margin-bottom: 10px;">🎓</div>
+        <h2>کلاس مجازی چمران</h2>
+        <p style="color: #7f8c8d; font-size: 0.9rem;">نام کاربری و رمز عبور خود را وارد کنید</p>
+        
+        <input type="text" id="inpUser" placeholder="نام کاربری (انگلیسی)" style="direction: ltr;">
+        <input type="tel" id="inpPass" placeholder="رمز عبور (عدد)" style="direction: ltr;">
+        
+        <button id="btnLogin" class="btn-main" onclick="performLogin()">ورود امن 🔐</button>
+        <div id="loginMsg" style="margin-top:15px; color:#c0392b; font-size:0.9rem;"></div>
+        <div id="loading"><div class="spinner"></div><br>درحال ارتباط با سرور...</div>
+        
+        <div class="signature-container footer-signature" id="loginFooterSig">
+            <div class="sig-prefix">Created By</div>
+            <div class="sig-name" data-text="Mohammad Pakzad">Mohammad Pakzad</div>
+        </div>
+    </div>
+
+    <div id="screen-library" class="card">
+        <div class="user-panel">
+            <div>
+                <div id="displayName" style="font-weight:bold; font-size:1.2rem;">دانش‌آموز</div>
+                <div id="user-rank" class="rank-badge">تازه‌وارد</div>
+            </div>
+            <div style="text-align:center;">
+                <div class="top-icons">
+                    <div class="gem-box"><span id="user-gem">0</span> 💎</div>
+                    <div class="icon-btn" onclick="showNotifications()">
+                        🔔
+                        <div id="notifDot" class="notif-dot"></div>
+                    </div>
+                </div>
+                <div id="user-xp" style="font-size:0.9rem; font-weight:bold; margin-top:5px; opacity:0.8;">0 XP</div>
+            </div>
+        </div>
+
+        <div class="wall-of-fame">
+            <div class="wall-particles p1"></div><div class="wall-particles p2"></div><div class="wall-particles p3"></div>
+            <div style="position:relative; z-index:2;">
+                <div class="wall-header">
+                    <div class="wall-title">🏆 نخبگان آخرین آزمون</div>
+                    <div id="examNameBadge" style="font-size:0.75rem; background:rgba(255,255,255,0.1); padding:4px 10px; border-radius:15px; color: white;">درحال بررسی...</div>
+                </div>
+                <div id="wallContainer" class="wall-scroll"><small style="color:rgba(255,255,255,0.7);">درحال دریافت لیست قهرمانان...</small></div>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+            <button onclick="window.location.href='azmoon.html'" style="background: #8e44ad; color: white; border: none; padding: 15px; border-radius: 15px; font-family: inherit; font-size: 1rem; cursor: pointer; box-shadow: 0 4px 10px rgba(142, 68, 173, 0.3);">📝 آزمون آنلاین</button>
+            <button onclick="alert('🛍️ فروشگاه به زودی باز می‌شود!\nامتیاز و الماس جمع کنید.')" style="background: #f1c40f; color: #333; border: none; padding: 15px; border-radius: 15px; font-family: inherit; font-size: 1rem; cursor: pointer; box-shadow: 0 4px 10px rgba(241, 196, 15, 0.3); font-weight:bold;">🛒 فروشگاه جوایز</button>
+        </div>
+        
+        <button onclick="openHistory()" style="width:100%; background: white; color: #2c3e50; border: 2px solid #ecf0f1; padding: 12px; border-radius: 15px; font-family: inherit; font-size: 1rem; cursor: pointer; margin-bottom: 20px; display:flex; align-items:center; justify-content:center; gap:10px;">
+            📜 پرونده و سوابق من
+        </button>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom:10px;">
+            <h3 style="margin:0;">درس‌های من</h3>
+            <div class="logout-btn" onclick="logout()">خروج 🚪</div>
+        </div>
+
+        <div id="video-list-container"></div>
+        
+        <div class="signature-container footer-signature show" style="margin-top: 10px; border:none;">
+            <div class="sig-name" data-text="M. Pakzad" style="font-size: 1rem;">M. Pakzad</div>
+        </div>
+    </div>
+
+    <div id="screen-player" class="card" style="padding:0; background:transparent; box-shadow:none; max-width:800px;">
+        <div id="playerContainer">
+            <div id="cheatAlert" class="alert-box">⛔ جلو زدن فیلم مجاز نیست!</div>
+            <div id="securityModal">
+                <div id="timerDisplay" class="timer-circle">۶۰</div>
+                <h3>🔒 حضور غیاب هوشمند</h3>
+                <div id="mathQ" class="math-question">...</div>
+                <input type="tel" id="mathAns" placeholder="پاسخ؟" style="width: 150px; color:black; background: rgba(255,255,255,0.9);">
+                <button class="btn-main" onclick="checkSecurityAnswer()" style="width: 150px; background:white; color:var(--primary);">ثبت پاسخ ✅</button>
+            </div>
+            <video id="myVideo" playsinline disablePictureInPicture></video>
+            <div class="custom-controls" id="controlsBar">
+                <button class="c-btn" id="playBtn" onclick="togglePlay()">▶️</button>
+                <div class="progress-bar-container" id="progressBarContainer">
+                    <div id="progressBar" class="progress-fill"></div>
+                    <div id="progressThumb" class="progress-thumb"></div>
+                </div>
+                <span id="timeDisplay" style="color:white; font-size:0.8rem; margin:0 10px; min-width:50px;">00:00</span>
+                <button class="c-btn" onclick="toggleFullScreen()" title="تمام صفحه">⛶</button>
+            </div>
+        </div>
+        <div style="padding: 15px; background: white; border-radius: 0 0 20px 20px; position:relative; z-index:10; box-shadow: 0 8px 20px rgba(0,0,0,0.05);">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <button class="back-btn" onclick="closePlayer()">بازگشت</button>
+                <strong id="videoTitle" style="font-size: 0.9rem;">عنوان درس</strong>
+            </div>
+            <div id="downloadContainer"></div>
+            <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 0.8rem;">
+                <span id="viewPercent" style="color: var(--accent); font-weight: bold;">۰٪</span>
+                <span id="viewStatus" style="color: #95a5a6;">در حال تماشا...</span>
+            </div>
+        </div>
+    </div>
+    
+    <script src="public/js/rank.js" onerror="alert('فایل rank.js یافت نشد!')"></script>
+    <script src="public/js/student.js"></script>
+
+</body>
+</html>

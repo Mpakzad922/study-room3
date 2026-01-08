@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>سالن امتحانات هوشمند</title>
+    
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" />
+    
+    <link rel="stylesheet" href="public/css/azmoon.css">
+</head>
+<body>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <div id="lightbox" onclick="this.style.display='none'">
+        <img id="lightboxImg" src="">
+    </div>
+
+    <div id="lobby" class="card">
+        <div style="font-size: 3.5rem; margin-bottom: 5px;">📝</div>
+        <h2 id="welcomeText" style="margin:0 0 10px 0;">سالن امتحانات</h2>
+        <div id="loading">⏳ در حال دریافت اطلاعات...</div>
+        <div id="resumeAlert" style="display:none; background:#fff3cd; color:#856404; padding:12px; border-radius:12px; margin-bottom:15px; border:1px solid #ffeeba;">⚠️ آزمون ناتمام بازیابی شد!</div>
+        <div id="examList"></div>
+        <button class="btn btn-back" onclick="window.location.href='index.html'">🏠 بازگشت به کلاس</button>
+    </div>
+
+    <div id="introCard" class="card" style="display:none;">
+        <h2 style="color:var(--primary); margin-bottom:10px;" id="introTitle">عنوان آزمون</h2>
+        
+        <div class="intro-box">
+            <div class="intro-stat">
+                <div class="istat">
+                    <span class="istat-val" id="introQCount">0</span>
+                    <span class="istat-label">سوال</span>
+                </div>
+                <div class="istat">
+                    <span class="istat-val" id="introTime">0</span>
+                    <span class="istat-label">دقیقه زمان</span>
+                </div>
+            </div>
+            <p style="font-size:0.9rem; color:#e67e22; font-weight:bold;">⚠️ نکته مهم: امکان بازگشت به سوال قبل وجود ندارد!</p>
+        </div>
+
+        <div class="reward-list">
+            <h4 style="margin:0 0 10px 0; color:#27ae60;">🎁 جوایز این آزمون:</h4>
+            <div class="reward-row">
+                <span>💎 عالی (همه درست)</span>
+                <span style="font-weight:bold; color:#8e44ad;" id="rewEx">300 XP</span>
+            </div>
+            <div class="reward-row">
+                <span>🥇 خیلی خوب</span>
+                <span style="font-weight:bold; color:#27ae60;" id="rewVg">100 XP</span>
+            </div>
+            <div class="reward-row">
+                <span>🙂 خوب</span>
+                <span style="font-weight:bold; color:#2980b9;" id="rewNr">20 XP</span>
+            </div>
+        </div>
+
+        <button class="btn btn-start" onclick="startExamNow()" style="padding:15px; font-size:1.2rem;">🚀 شروع آزمون</button>
+        <button class="btn btn-back" onclick="location.reload()">انصراف</button>
+    </div>
+
+    <div id="examArea" class="card" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 2px solid #f1f2f6; padding-bottom: 10px;">
+            <span id="qProgress" style="font-weight:bold; color:var(--primary);">سوال ۱</span>
+            <div id="timer" class="timer-box">00:00</div>
+        </div>
+        <img id="questionImage" class="q-image" src="" onclick="openLightbox(this.src)" style="display:none;">
+        <h3 id="questionText" style="text-align: right; line-height: 1.8; font-size: 1.1rem; color: #34495e;">...</h3>
+        <div id="optionsContainer"></div>
+        <button id="btnNext" class="btn btn-next" onclick="nextQuestion()">سوال بعدی ⬅️</button>
+        <button id="btnFinish" class="btn btn-finish" onclick="finishExam()">✅ ثبت نهایی آزمون</button>
+    </div>
+
+    <div id="reportCard" class="card" style="display: none;">
+        <h2 style="color:var(--accent);">📊 نتیجه عملکرد</h2>
+        
+        <div class="score-container">
+            <div class="score-pointer" id="scorePointer"></div>
+            <div class="score-bar"></div>
+            <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#aaa; margin-top:5px; direction:ltr;">
+                <span>0%</span><span>40%</span><span>60%</span><span>80%</span><span>100%</span>
+            </div>
+        </div>
+        
+        <div id="qualitativeScore" class="score-text">...</div>
+
+        <div class="stat-grid">
+            <div class="stat-item">
+                <span id="resCorrect" class="stat-num" style="color:var(--success)">0</span>
+                <span class="stat-label">درست ✅</span>
+            </div>
+            <div class="stat-item">
+                <span id="resWrong" class="stat-num" style="color:var(--danger)">0</span>
+                <span class="stat-label">غلط ❌</span>
+            </div>
+            <div class="stat-item">
+                <span id="resEmpty" class="stat-num" style="color:#95a5a6">0</span>
+                <span class="stat-label">نزده ⚪</span>
+            </div>
+        </div>
+
+        <div id="xpMsg" style="background:#e8f6f3; color:#16a085; padding:10px; border-radius:10px; margin-bottom:15px; display:none; margin-top:20px;">
+            ✅ اطلاعات در سوابق شما ثبت شد.
+        </div>
+
+        <button id="btnReview" class="btn" style="background:#f39c12; color:white; display:none;" onclick="startReviewMode()">🔍 تحلیل و مرور پاسخ‌ها</button>
+        <button class="btn btn-back" onclick="window.location.href='index.html'">🏠 بازگشت به کلاس</button>
+    </div>
+
+    <div id="reviewArea" class="card" style="display: none; text-align: right;">
+        <h3 style="text-align:center; color:#e67e22; border-bottom:2px solid #eee; padding-bottom:10px;">🧐 تحلیل آزمون</h3>
+        <div id="reviewContent"></div>
+        <button class="btn btn-back" onclick="window.location.href='index.html'">🏠 پایان مرور و بازگشت</button>
+    </div>
+
+    <script src="public/js/rank.js"></script>
+    <script src="public/js/azmoon.js"></script>
+
+</body>
+</html>

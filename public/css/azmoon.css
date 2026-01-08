@@ -1,0 +1,84 @@
+:root { --primary: #2c3e50; --accent: #8e44ad; --bg: #f0f2f5; --success: #27ae60; --danger: #c0392b; --warning: #f1c40f; }
+body { font-family: 'Vazirmatn', sans-serif; background: var(--bg); margin: 0; padding: 15px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; user-select: none; -webkit-tap-highlight-color: transparent; }
+
+/* کارت‌ها */
+.card { background: white; width: 100%; max-width: 650px; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); margin-bottom: 20px; text-align: center; animation: fadeIn 0.5s; position: relative; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* دکمه‌ها */
+.btn { border: none; padding: 12px; border-radius: 12px; font-size: 1rem; cursor: pointer; font-family: inherit; width: 100%; font-weight: bold; transition: 0.2s; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.btn:active { transform: scale(0.98); }
+.btn-start { background: var(--accent); color: white; box-shadow: 0 4px 15px rgba(142, 68, 173, 0.3); }
+.btn-next { background: #2980b9; color: white; }
+.btn-finish { background: var(--success); color: white; display: none; }
+.btn-back { background: #ecf0f1; color: #2c3e50; }
+
+/* لیست آزمون‌ها */
+.exam-item { background: #fff; border: 2px solid #e1bee7; border-radius: 16px; padding: 15px; margin-bottom: 12px; text-align: right; display: flex; justify-content: space-between; align-items: center; transition: 0.2s; position: relative; overflow: hidden; }
+.exam-item:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+.exam-item.locked { background: #f8f9fa; border-color: #bdc3c7; opacity: 0.9; }
+.exam-info h4 { margin: 0; color: #4a148c; font-size: 1rem; }
+.exam-info small { color: #7f8c8d; font-size: 0.8rem; display: block; margin-top: 5px; }
+
+/* تیک جدید */
+.new-badge { position: absolute; top: 0; left: 0; background: var(--danger); color: white; font-size: 0.7rem; padding: 3px 10px; border-radius: 0 0 10px 0; animation: pulse 1.5s infinite; font-weight: bold; }
+@keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.8; } 100% { opacity: 1; } }
+
+/* صفحه راهنما (Intro) */
+.intro-box { background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); border: 1px solid #ddd; border-radius: 15px; padding: 20px; text-align: center; margin-bottom: 20px; }
+.intro-stat { display: flex; justify-content: space-around; margin: 20px 0; }
+.istat { text-align: center; }
+.istat-val { font-size: 1.5rem; font-weight: bold; color: var(--primary); display: block; }
+.istat-label { font-size: 0.8rem; color: #7f8c8d; }
+
+.reward-list { text-align: right; background: white; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px dashed #27ae60; background-color: #f0fdf4; }
+.reward-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+.reward-row:last-child { margin-bottom: 0; border: none; }
+
+/* تایمر */
+.timer-box { font-size: 1.4rem; font-weight: bold; color: var(--danger); background: #fadbd8; padding: 5px 15px; border-radius: 12px; display: inline-block; }
+
+/* تصاویر و لایت‌باکس */
+.q-image { width: 100%; max-width: 100%; height: auto; max-height: 300px; object-fit: contain; border-radius: 12px; border: 1px solid #eee; margin: 15px 0; cursor: zoom-in; background: #fafafa; display: block; margin-left: auto; margin-right: auto; }
+#lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 20000; display: none; justify-content: center; align-items: center; cursor: zoom-out; backdrop-filter: blur(5px); }
+#lightbox img { max-width: 95%; max-height: 95%; border-radius: 10px; box-shadow: 0 0 50px rgba(255,255,255,0.2); animation: zoomIn 0.3s; }
+@keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+/* گزینه‌ها */
+.option { background: #f8f9fa; border: 2px solid #e9ecef; padding: 15px; border-radius: 12px; margin-bottom: 10px; cursor: pointer; text-align: right; transition: 0.2s; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; width: 100%; box-sizing: border-box; }
+.option:hover { border-color: #b2bec3; }
+.option.selected { background: #e8f6f3; border-color: var(--success); color: var(--success); font-weight: bold; box-shadow: 0 4px 10px rgba(39, 174, 96, 0.2); transform: scale(1.01); }
+.option img { max-width: 100%; height: auto; max-height: 250px; border-radius: 8px; border: 1px solid #ddd; object-fit: contain; align-self: center; margin-top: 5px; display: block; }
+
+/* نوار نمره */
+.score-container { margin: 40px 0 20px 0; position: relative; padding-top: 20px; direction: ltr; } 
+.score-bar { height: 25px; width: 100%; border-radius: 15px; background: linear-gradient(90deg, #e74c3c 0%, #e74c3c 39%, #f1c40f 40%, #f1c40f 59%, #2ecc71 60%, #2ecc71 79%, #8e44ad 80%, #8e44ad 100%); position: relative; box-shadow: inset 0 3px 6px rgba(0,0,0,0.2); overflow: visible; }
+
+.score-pointer { 
+    position: absolute; 
+    top: -15px; 
+    width: 0; height: 0; 
+    border-left: 10px solid transparent; 
+    border-right: 10px solid transparent; 
+    border-top: 18px solid #2c3e50; 
+    transform: translateX(-50%); 
+    transition: left 1.5s cubic-bezier(0.22, 1, 0.36, 1); 
+    left: 0%; z-index: 100;
+}
+.score-pointer::after { content: ''; position: absolute; top: -20px; left: -2px; width: 4px; height: 4px; background: white; border-radius: 50%; }
+
+.score-text { font-size: 2rem; font-weight: bold; margin-top: 25px; color: #2c3e50; text-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+
+.stat-grid { display: flex; justify-content: space-around; margin: 20px 0; background: #f8f9fa; padding: 15px; border-radius: 12px; }
+.stat-item { text-align: center; }
+.stat-num { font-size: 1.3rem; font-weight: bold; display: block; }
+.stat-label { font-size: 0.8rem; color: #7f8c8d; }
+
+#loading { color: #7f8c8d; font-weight: bold; margin-top: 20px; }
+/* 🔧 اصلاح کانواس جشن */
+#confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 100000; display: none; }
+
+/* 🔧 اصلاح استایل بخش مرور برای موبایل */
+.review-q { border-bottom: 1px solid #eee; padding: 20px 0; }
+.review-q img { max-width: 100% !important; height: auto !important; border-radius: 10px; margin: 10px auto; display: block; box-shadow: 0 3px 10px rgba(0,0,0,0.1); }
+.r-opt { padding: 10px; margin: 5px 0; border-radius: 10px; border: 1px solid #eee; background: #fff; }

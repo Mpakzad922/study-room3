@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پنل مدیریت هوشمند چمران (نسخه کامل الماس 💎)</title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" />
+    
+    <link rel="stylesheet" href="public/css/admin.css">
+</head>
+<body>
+
+    <div id="loginScreen">
+        <h2 style="margin-bottom:20px;">🛡️ پنل مدیریت چمران</h2>
+        <input type="password" id="adminPass" placeholder="رمز عبور مدیر را وارد کنید...">
+        <button onclick="doLogin()">ورود امن</button>
+    </div>
+
+    <div id="loadingBox" class="loading-overlay">
+        <div class="spinner"></div>
+        <p style="margin-top:15px; color:#555; font-weight:bold;">درحال انجام عملیات...</p>
+    </div>
+
+    <div id="mainApp">
+        <header>
+            <h1>پنل مدیریت</h1>
+            <div class="head-btns">
+                <button class="refresh-btn" onclick="downloadBackup()" title="دانلود پشتیبان">💾</button>
+                <button class="refresh-btn" onclick="fetchData()" title="بروزرسانی">🔄</button>
+            </div>
+        </header>
+        <div style="text-align:center; font-size:0.75rem; color:#999; margin-top:5px;" id="lastUpdate">بروزرسانی: ...</div>
+
+        <div id="tab-users" class="section active">
+            <input type="text" class="search-box" id="searchBox" placeholder="🔍 جستجوی نام دانش‌آموز..." onkeyup="filterUsers()">
+            <div id="usersList"></div>
+        </div>
+
+        <div id="tab-notifs" class="section">
+            <h3 style="color:#2980b9;">🔔 ارسال اعلان (زنگوله)</h3>
+            <div class="notif-input-area">
+                <input id="notifTxt" placeholder="متن پیام را بنویسید..." style="width:100%; padding:10px; border-radius:8px; border:1px solid #ddd; margin-bottom:10px;">
+                <select id="notifType" style="padding:10px; border-radius:8px; border:1px solid #ddd; width:100%; margin-bottom:10px;">
+                    <option value="info">ℹ️ اطلاع‌رسانی (آبی)</option>
+                    <option value="alert">⚠️ هشدار مهم (قرمز)</option>
+                    <option value="success">🎉 تبریک (سبز)</option>
+                </select>
+                <button onclick="sendNotification()" style="width:100%; background:#2980b9; color:white; border:none; padding:10px; border-radius:8px; cursor:pointer;">ارسال به همه</button>
+            </div>
+            <h4>تاریخچه پیام‌ها:</h4>
+            <div id="notifHistoryList"></div>
+        </div>
+
+        <div id="tab-lessons" class="section">
+            <h3 style="color:var(--primary); border-bottom:2px solid var(--accent); display:inline-block; padding-bottom:5px;">📊 آمار بازدید فیلم‌ها</h3>
+            <p style="color:red; font-size:0.8rem;">⚠️ نکته: برای دیدن اسامی، روی کارت درس کلیک کنید.</p>
+            <div id="lessonsStats"></div>
+        </div>
+
+        <div id="tab-exams" class="section">
+            <h3 style="color:var(--primary); border-bottom:2px solid #8e44ad; display:inline-block; padding-bottom:5px;">📝 دفتر نمرات و رمزها</h3>
+            <p style="color:red; font-size:0.8rem;">⚠️ نکته: برای دیدن لیست نمرات، روی کارت آزمون کلیک کنید.</p>
+            <div id="examsStats"></div>
+        </div>
+
+        <div id="tab-manage" class="section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h3 style="color:#27ae60; margin:0;">🛠️ مدیریت کاربران</h3>
+                <button onclick="toggleNewUserBox()" style="background:#3498db; color:white; border:none; padding:8px 15px; border-radius:8px; cursor:pointer;">➕ کاربر جدید</button>
+            </div>
+
+            <div id="newUserBox" class="new-user-box">
+                <h4 style="margin-top:0;">ثبت‌نام دانش‌آموز جدید</h4>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                    <input id="new_n" placeholder="نام کامل" class="manage-input">
+                    <input id="new_u" placeholder="نام کاربری (انگلیسی)" class="manage-input" style="direction:ltr">
+                    <input id="new_p" placeholder="رمز عبور" class="manage-input" style="direction:ltr">
+                    <button onclick="createUser()" style="background:#27ae60; color:white; border:none; border-radius:5px; cursor:pointer;">ثبت نهایی</button>
+                </div>
+            </div>
+
+            <p style="font-size:0.8rem; color:#7f8c8d;">💡 راهنما: می‌توانید اطلاعات و <b>امتیاز</b> را همینجا تغییر دهید و دکمه سبز «ثبت» را بزنید. برای حذف دائمی دکمه سطل آشغال را بزنید.</p>
+            
+            <div style="overflow-x:auto;">
+                <table class="manage-table">
+                    <thead>
+                        <tr>
+                            <th style="width:25%">نام کامل</th>
+                            <th style="width:20%">نام کاربری</th>
+                            <th style="width:15%">رمز</th>
+                            <th style="width:15%">امتیاز (XP)</th>
+                            <th style="width:15%">عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="manageTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="tab-ranking" class="section">
+            <h3 style="color:var(--primary); text-align:center;">🏆 تالار افتخارات</h3>
+            <div id="rankingList"></div>
+        </div>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('users')"><span class="tab-icon">👥</span><span>دانش‌آموز</span></button>
+        <button class="tab-btn" onclick="switchTab('notifs')"><span class="tab-icon">🔔</span><span>اعلانات</span></button>
+        <button class="tab-btn" onclick="switchTab('lessons')"><span class="tab-icon">🎬</span><span>درس‌ها</span></button>
+        <button class="tab-btn" onclick="switchTab('exams')"><span class="tab-icon">📝</span><span>آزمون</span></button>
+        <button class="tab-btn" onclick="switchTab('manage')"><span class="tab-icon">⚙️</span><span>مدیریت</span></button>
+        <button class="tab-btn" onclick="switchTab('ranking')"><span class="tab-icon">🏆</span><span>برترین‌ها</span></button>
+    </div>
+
+    <div id="detailModal">
+        <div class="modal-content">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid #eee; padding-bottom:10px;">
+                <h3 id="modalTitle" style="margin:0; color:var(--primary);">پروفایل</h3>
+                <button onclick="closeModal()" style="background:#eee; border:none; width:35px; height:35px; border-radius:50%; cursor:pointer;">×</button>
+            </div>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script src="public/js/admin.js"></script>
+
+</body>
+</html>
